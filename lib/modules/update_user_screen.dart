@@ -281,18 +281,18 @@ class UpdateAdminScreen extends StatelessWidget {
                             context: context,
                             string: 'Update',
                             function: (){
-                              if(formKey.currentState!.validate()){
+
                               cubit.updateAdminData(
 
-                                  email: adminEmailController.text.trim(),
-                                  password: adminPasswordController.text.trim(),
-                                  name: adminNameController.text.trim(),
-                                  phone: adminPhoneController.text.trim(),
-                                  id: adminIdController.text.trim(),
-                                  hospitalLocation: hospitalLocationController.text.trim(),
-                                  hospitalName: hospitalNameController.text.trim(),
+                                  email: adminEmailController.text,
+                                  password: adminPasswordController.text,
+                                  name: adminNameController.text,
+                                  phone: adminPhoneController.text,
+                                  id: adminIdController.text,
+                                  hospitalLocation: hospitalLocationController.text,
+                                  hospitalName: hospitalNameController.text,
                                   uId:admin.uId!
-                              );}
+                              );
                             },
                             color: primaryColor),
                       ),

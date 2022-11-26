@@ -6,9 +6,9 @@ import '../constants/constants.dart';
 
 void navigateAndEnd(context,widget)=>
     Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context)=>widget,),
-        result: (Route<dynamic> route)=>false,
+      context,
+      MaterialPageRoute(builder: (BuildContext context)=>widget,),
+      result: (Route<dynamic> route)=>false,
 
     );
 
@@ -22,39 +22,39 @@ void navigateTo(context, widget) => Navigator.push(
 );
 
 Widget defaultButton({
-  var textColor =const Color(0xFF014963),
-  double width = 200,
-  double height = 50.0,
-  Color? color,
-  var context,
-  required String string,
-  required Function? function(),
+var textColor =const Color(0xFF014963),
+double width = 200,
+double height = 50.0,
+Color? color,
+var context,
+required String string,
+required Function? function(),
 }) =>
-    Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10)
-      ),
-      child: Center(
-        child: MaterialButton(
-            minWidth: width,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(string,
-                  style:GoogleFonts.laila(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontStyle: FontStyle.italic,
-                  )),
-            ),
-            onPressed: function
+Container(
+width: width,
+height: height,
+decoration: BoxDecoration(
+color: color,
+borderRadius: BorderRadius.circular(10)
+),
+child: Center(
+child: MaterialButton(
+minWidth: width,
+child: Padding(
+padding: const EdgeInsets.all(8.0),
+child: Text(string,
+style:GoogleFonts.laila(
+fontSize: 22,
+fontWeight: FontWeight.bold,
+color: textColor,
+fontStyle: FontStyle.italic,
+)),
+),
+onPressed: function
 
-        ),
-      ),
-    );
+),
+),
+);
 
 Widget defaultButton2({
   double width = 200,
@@ -99,7 +99,7 @@ Widget defaultFormFeild({
   required String labelText,
   bool isObsecured=false,
   context
-  
+
 })=>TextFormField(
   cursorColor: cursorColor,
   validator: (value){
@@ -146,7 +146,7 @@ Widget myDivider() => Padding(
 
 myAppBar({
   required String appBarText,
-  List<Widget>? icon
+  List<Widget>? icon,
 })=>AppBar(
   actions:icon,
   backgroundColor:primaryColor ,

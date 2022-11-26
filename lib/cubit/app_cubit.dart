@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:teledoctor/modules/login/login_screen.dart';
+import 'package:teledoctor/modules/onBoarding_screen.dart';
+import 'package:teledoctor/shared/constants/constants.dart';
 import '../models/admin_model.dart';
 import '../shared/component/components.dart';
 import '../shared/network/shared_preference.dart';
@@ -21,6 +24,7 @@ class AppCubit extends Cubit<AppState> {
     required String id,
     required String hospitalLocation,
     required String hospitalName,
+
 
   }) {
     emit(AddNewAdminRegisterLoadingState());
@@ -56,10 +60,11 @@ class AppCubit extends Cubit<AppState> {
         email:email ,
         phone:phone ,
         uId: uId,
-      id:id,
-      hospitalLocation:hospitalLocation,
-      hospitalName:hospitalName,
-      password:password,
+        id:id,
+        hospitalLocation:hospitalLocation,
+        hospitalName:hospitalName,
+        password:password,
+        type: 'admin'
     );
     FirebaseFirestore.instance
         .collection('admins')
@@ -83,8 +88,10 @@ class AppCubit extends Cubit<AppState> {
         .then((value) {
       value.docs.forEach((element)
       {
-        // if(element.data()['uId']!=admins.uId)
-        admins.add(AdminModel.fromJson(element.data()));
+
+        if(element.data()['uId']!=uId){
+          admins.add(AdminModel.fromJson(element.data()));
+        }
         print(admins);
       });
       emit(GetAdminsSuccessState());
@@ -108,30 +115,32 @@ class AppCubit extends Cubit<AppState> {
   }) async {
     emit(UpdateAdminDataLoadingState());
     AdminModel model = AdminModel(
-      name: name,
-      phone: phone,
-      email: email,
-      id: id,
-      hospitalLocation:hospitalLocation ,
-      hospitalName:hospitalName ,
-      password: password,
-      uId: uId
+        name: name,
+        phone: phone,
+        email: email,
+        id: id,
+        hospitalLocation:hospitalLocation ,
+        hospitalName:hospitalName ,
+        password: password,
+        uId: uId,
+        type: 'admin'
+
 
     );
 
 
 
     FirebaseFirestore.instance.collection('admins').doc(uId).update(model.toMap())
-     .then((value)async
- {
+        .then((value)async
+    {
 
-   getUsers();
-   emit(UpdateAdminDataSuccessState());
- }).catchError((onError)
- {
-   emit(UpdateAdminDataErrorState(onError.toString()));
+      getUsers();
+      emit(UpdateAdminDataSuccessState());
+    }).catchError((onError)
+    {
+      emit(UpdateAdminDataErrorState(onError.toString()));
 
- });
+    });
 
   }
 
@@ -156,6 +165,20 @@ class AppCubit extends Cubit<AppState> {
   }
 
 
+  void logOut(context, Widget)
+  {
+    CacheHelper.removeData(
+          key: 'uId',
+        ).then((value) {
+          if (value!) {
+            navigateAndEnd(
+              context,
+              LoginScreen(),
+            );
+          }
+        });
+
+  }
 
   bool isObsecured=true;
 
