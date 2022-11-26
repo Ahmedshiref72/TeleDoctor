@@ -4,12 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/constants.dart';
 
-void navigateAndEnd(context,widget)=>
-    Navigator.pushReplacement(
+void navigateAndEnd(
+    context,
+    widget,
+    ) =>
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (BuildContext context)=>widget,),
-      result: (Route<dynamic> route)=>false,
-
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+          (route) {
+        return false;
+      },
     );
 
 
