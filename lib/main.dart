@@ -27,15 +27,14 @@ Future<void> main() async {
     } else {
       widget = LoginScreen();
     }    }
-   else {
+  else {
     CacheHelper.saveData(key: 'onBoarding',value: false);
     onBoarding = await CacheHelper.getData(key: 'onBoarding');
     widget = OnBoardingScreen();
   }
 
 
-  runApp(MyApp(onBoarding: onBoarding, startWidget: widget,
-  ));}
+  runApp(MyApp(onBoarding: onBoarding, startWidget: widget,));}
 
 class MyApp extends StatelessWidget {
   final Widget startWidget;
@@ -46,26 +45,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
 
-      providers: [
-        BlocProvider(create: (BuildContext context) =>AppCubit()..getUsers() ,
-        ),
-        BlocProvider(create: (BuildContext context) =>LoginCubit(),
-        )
+        providers: [
+          BlocProvider(create: (BuildContext context) =>AppCubit()..getUsers() ,
+          ),
+          BlocProvider(create: (BuildContext context) =>LoginCubit(),
+          )
 
-      ],
-      child:MaterialApp(
-            theme: ThemeData(
+        ],
+        child:MaterialApp(
+          theme: ThemeData(
             textTheme: GoogleFonts.lailaTextTheme(
 
-            Theme.of(context).textTheme,
-        ),),
+              Theme.of(context).textTheme,
+            ),),
           debugShowCheckedModeBanner: false,
           home:startWidget,
 
 
-    )
+        )
     );
   }
 }
-
 

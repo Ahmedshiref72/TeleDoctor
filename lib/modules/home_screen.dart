@@ -6,10 +6,8 @@ import 'package:teledoctor/cubit/app_state.dart';
 import 'package:teledoctor/models/admin_model.dart';
 import 'package:teledoctor/modules/update_user_screen.dart';
 import 'package:teledoctor/shared/component/components.dart';
-
 import '../shared/constants/constants.dart';
 import 'add_admin_screen.dart';
-import 'login/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool inProgress = false;
 
     return BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
@@ -46,8 +43,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                     onPressed: () {
-                                      cubit.logOut(context, LoginScreen());
-                                      navigateAndEnd(context, LoginScreen());
+                                      cubit.logOut(context);
                                     },
                                   ),
                                   CupertinoDialogAction(
@@ -67,20 +63,36 @@ class HomeScreen extends StatelessWidget {
                     )),
               )
             ]),
-            body: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: size.height * 0.05, horizontal: size.width * .05),
-              child: GridView.builder(
+            body: RefreshIndicator(
+              onRefresh: () async => cubit.getUsers(),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
                 physics: const BouncingScrollPhysics(),
-                itemCount: cubit.admins.length,
-                itemBuilder: (context, index) {
-                  return myCard(context, cubit.admins[index]);
-                },
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 300,
-                    childAspectRatio: 3 / 5,
-                    crossAxisSpacing: size.width * .03,
-                    mainAxisSpacing: size.height * .02),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: size.height * 0.05,
+                      horizontal: size.width * .05),
+                  child: Column(
+                    children: [
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: cubit.admins2.length,
+                        itemBuilder: (context, index) {
+                          return myCard(context, cubit.admins2[index]);
+                        },
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 300,
+                            childAspectRatio: 3 / 5,
+                            crossAxisSpacing: size.width * .03,
+                            mainAxisSpacing: size.height * .02),
+                      ),
+                      SizedBox(
+                        height: size.height,
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
             floatingActionButton: Container(
